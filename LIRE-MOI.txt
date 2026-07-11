@@ -1,0 +1,40 @@
+🐑  LE LIVRE DE MOUTONS — Dossier d'Alexandre   (version HD)
+==============================================================
+
+Tout est là pour JOUER, pour APPRENDRE, et pour FABRIQUER le jeu toi-même.
+
+
+CE QU'IL Y A DANS LE DOSSIER
+----------------------------
+• Livre-de-Moutons.sb3        →  le JEU COMPLET en HD (à ouvrir dans Scratch)
+• Tuto-Livre-de-Moutons.html  →  le TUTORIEL pas à pas, en leçons (double-clic → navigateur)
+• elements/                   →  toutes les IMAGES et SONS à importer dans Scratch pour construire le jeu
+      cartes/     → les 36 moutons + le dos de carte   (costumes du sprite « Carte »)
+      paquet/     → paquet fermé / paquet ouvert
+      boutons/    → boutons Booster et Album
+      fleches/    → flèches gauche / droite (tourner les pages)
+      decors/     → arrière-plans (booster, album) + couverture
+      pastilles/  → badges de niveau et chiffres
+      sons/       → les 4 sons du jeu
+• images/                     →  dessins utilisés PAR le tuto (ne pas y toucher)
+
+
+1) POUR JOUER
+-------------
+1. Va sur  scratch.mit.edu  → « Créer ».
+2. Fichier → « Importer depuis votre ordinateur » → choisis  Livre-de-Moutons.sb3.
+3. Drapeau vert. Clique l'icône PLEIN ÉCRAN (les 4 flèches) pour voir en grand.
+4. • Clique le PAQUET : il se déchire, 5 cartes se retournent.
+   • En haut à gauche : ta Collection, tes Boosters restants, le temps avant le prochain.
+   • Bouton ALBUM : ta collection en LIVRE À PAGES (flèches ◀ ▶ pour tourner), badges de niveau.
+
+
+2) POUR APPRENDRE ET FABRIQUER
+------------------------------
+Double-clique sur  Tuto-Livre-de-Moutons.html.
+Il est découpé en LEÇONS (parfait pour avancer une étape à la fois, ou filmer des vidéos).
+Quand une leçon demande une image ou un son, tu vas le chercher dans le dossier  elements/.
+
+
+Astuce : garde le dossier ENTIER ensemble (le tuto a besoin du dossier « images »,
+et quand tu construis le jeu tu prends tout dans « elements »).

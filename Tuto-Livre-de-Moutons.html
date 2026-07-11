@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Livre de Moutons — le tuto d'Alexandre</title>
+<style>
+:root{--ink:#22314e;--soft:#f4f7ff;--line:#e3ebfa;}
+*{box-sizing:border-box}
+body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);margin:0;background:#eaf1ff;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding:20px}
+header.hero{background:linear-gradient(135deg,#4c97ff,#9966ff);color:#fff;border-radius:22px;padding:26px 28px;box-shadow:0 10px 30px rgba(76,151,255,.35)}
+header.hero h1{margin:0 0 6px;font-size:27px}
+header.hero p{margin:5px 0;opacity:.96}
+h2.chap{margin:34px 0 8px;font-size:22px;background:linear-gradient(90deg,#4c97ff22,transparent);border-left:9px solid #4c97ff;padding:9px 12px;border-radius:6px}
+.lead{color:#41527a;margin:2px 0 12px}
+.box{background:#fff;border-radius:16px;padding:16px 20px;margin:14px 0;box-shadow:0 3px 12px rgba(34,49,78,.08)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{color:#fff;border-radius:10px;padding:5px 12px;font-size:13px;font-weight:700}
+.lecon{background:#fff;border-radius:18px;padding:18px 22px;margin:18px 0;box-shadow:0 3px 14px rgba(34,49,78,.09)}
+.lecon-h{font-size:19px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.lnum{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#4c97ff;color:#fff;font-size:16px;flex:0 0 auto}
+.but{background:#eef4ff;border:1px solid #cfe0ff;border-radius:12px;padding:10px 14px;margin:8px 0}
+.ou{background:#fffaf0;border:1px solid #ffe4b0;border-radius:12px;padding:10px 14px;margin:8px 0;font-size:14px}
+.blocs-img{display:block;max-width:100%;height:auto;margin:14px auto;border:1px solid #e3ebfa;border-radius:10px;background:#fff;padding:6px}
+.edframe{border:1px solid #cdd6ea;border-radius:12px;overflow:hidden;margin:12px 0;background:#eef1f7}
+.edtop{background:#4c97ff;color:#fff;font-size:12px;font-weight:bold;padding:6px 10px}
+.edrow{display:flex;gap:8px;padding:8px;align-items:flex-start}
+.edrail{flex:0 0 130px;background:#fff;border:1px solid #dfe4ee;border-radius:8px;padding:8px;font-size:11px}
+.edrail .cat{display:flex;align-items:center;gap:6px;margin:4px 0;color:#9aa3b5;opacity:.55}
+.edrail .cat.on{opacity:1;color:#22314e;font-weight:bold}
+.edrail .dot{width:13px;height:13px;border-radius:50%;flex:0 0 auto}
+.edrail .cat.on .dot{box-shadow:0 0 0 3px rgba(255,120,40,.4)}
+.edcode{flex:1;min-width:0;background:#fbfcfe;border:1px solid #dfe4ee;border-radius:8px;padding:10px;overflow-x:auto;text-align:center}
+.edcode img{display:inline-block;max-width:100%;height:auto}
+.edright{flex:0 0 132px;display:flex;flex-direction:column;gap:8px}
+.edstage{background:#fff;border:1px solid #dfe4ee;border-radius:8px;padding:6px;text-align:center;font-size:15px}
+.edstage small{display:block;font-size:10px;color:#9aa3b5}
+.edsprites{background:#fff;border:1px solid #dfe4ee;border-radius:8px;padding:8px;font-size:11px}
+.edsprites .lutin{background:#eaf1ff;border:2px solid #4c97ff;border-radius:8px;padding:7px 4px;text-align:center;font-weight:bold;color:#2f6fd6;line-height:1.2}
+.edsprites .others{display:flex;gap:5px;margin-top:6px}
+.edsprites .others span{width:24px;height:24px;background:#f3f5f9;border:1px solid #dfe4ee;border-radius:6px;flex:0 0 auto}
+@media(max-width:640px){.edrail{flex-basis:96px}.edright{flex-basis:96px}}
+.detail{background:#f7fbff;border:1px solid #d9e8fb;border-radius:12px;padding:6px 18px;margin:10px 0}
+.detail h4,.pourquoi h4,.teste h4,.astuce h4{margin:10px 0 6px;font-size:15px}
+.blocdesc{margin:6px 0;padding-left:22px}
+.blocdesc li{margin:8px 0}
+.blocdesc b{color:#2f6fd6}
+.pourquoi{background:#fff6e9;border:1px solid #ffdca6;border-radius:12px;padding:6px 18px;margin:10px 0}
+.pourquoi h4{color:#c77b17}
+.teste{background:#eafaef;border:1px solid #bce8c8;border-radius:12px;padding:6px 18px;margin:10px 0}
+.teste h4{color:#2f9e52}
+.astuce{background:#f3eeff;border:1px solid #d9c9f5;border-radius:12px;padding:6px 18px;margin:10px 0}
+.astuce h4{color:#7a4fce}
+.steps{counter-reset:s}
+.step{background:#fff;border-radius:12px;padding:10px 16px 10px 46px;margin:8px 0;position:relative;box-shadow:0 2px 8px rgba(34,49,78,.07)}
+.step:before{counter-increment:s;content:counter(s);position:absolute;left:12px;top:10px;width:24px;height:24px;background:#4c97ff;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--soft);font-weight:700}
+td.num,th.num{text-align:right}
+.badge{display:inline-block;color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.rar-head{font-weight:700;font-size:15px;margin:10px 0 6px}
+.cardrow{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px}
+.card{margin:0;flex:0 0 calc((100% - 40px)/6);background:#fff;border-radius:9px;overflow:hidden;border:2px solid var(--rc,#ccc)}
+.card img{width:100%;display:block;aspect-ratio:63/88;object-fit:contain;background:#fff}
+.card figcaption{font-size:9px;text-align:center;padding:3px 2px;font-weight:600}
+.mini{font-weight:400;color:#5a6b8c}
+.mono{font-family:Consolas,monospace;background:#eef2fb;padding:1px 6px;border-radius:5px;font-size:13px}
+kbd{background:#22314e;color:#fff;border-radius:6px;padding:1px 7px;font-size:12px}
+footer{text-align:center;color:#5a6b8c;padding:24px;font-size:13px}
+#menuBtn{position:fixed;top:14px;left:14px;z-index:60;background:#4c97ff;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 3px 10px rgba(76,151,255,.4)}
+#menu{position:fixed;top:0;left:0;width:270px;height:100%;background:#fff;box-shadow:2px 0 16px rgba(34,49,78,.18);z-index:70;transform:translateX(-100%);transition:transform .25s;overflow-y:auto;padding-bottom:30px}
+#menu.open{transform:translateX(0)}
+.menu-head{background:#4c97ff;color:#fff;font-size:17px;font-weight:bold;padding:16px 18px;position:sticky;top:0}
+#menuList a{display:block;text-decoration:none;color:#22314e;padding:7px 18px;font-size:14px;border-bottom:1px solid #f0f3fa}
+#menuList a:hover{background:#eef4ff}
+#menuList a.m-chap{font-weight:bold;color:#2f6fd6;background:#f7faff}
+#menuList a.m-lecon{padding-left:34px;font-size:13px;color:#41527a}
+#menuList a.m-lecon:before{content:"→ ";color:#9aa3b5}
+#menuOverlay{position:fixed;inset:0;background:rgba(20,30,50,.35);z-index:65;opacity:0;pointer-events:none;transition:opacity .25s}
+#menuOverlay.open{opacity:1;pointer-events:auto}
+@media(min-width:1200px){#menu{transform:translateX(0)}#menuBtn,#menuOverlay{display:none}.wrap{margin-left:290px}}
+.verifdrop{border:2px dashed #b9c9e8;border-radius:14px;padding:22px;text-align:center;background:#f7fbff;margin:12px 0}
+.verifdrop.drag{background:#eaf4ff;border-color:#4c97ff}
+#verifBtn{background:#4c97ff;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:15px;font-weight:bold;cursor:pointer}
+.verifhint{color:#8a93a8;font-size:13px;margin-top:8px}
+.verifprivacy{font-size:13px;color:#5a6b8c;margin-top:10px}
+.vr-score{font-size:18px;font-weight:bold;margin:14px 0 6px;padding:10px 14px;border-radius:10px}
+.vr-score.ok{background:#eafaef;color:#2f9e52}.vr-score.mid{background:#fff8e6;color:#c77b17}.vr-score.low{background:#fff0f0;color:#c0392b}
+.vr-sec{margin:12px 0;background:#fff;border:1px solid #e3ebfa;border-radius:12px;overflow:hidden}
+.vr-sec h4{margin:0;padding:8px 14px;background:#f4f7ff;font-size:14px}
+.vr-item{display:flex;gap:8px;padding:6px 14px;font-size:14px;border-top:1px solid #f0f3fa}
+.vr-ok{color:#2f9e52}.vr-no{color:#c0392b}
+.vr-err{background:#fff0f0;border:1px solid #ffc4c4;border-radius:10px;padding:12px 16px;color:#c0392b}
+</style></head>
+<body>
+<button id="menuBtn" aria-label="Ouvrir le sommaire">☰ Sommaire</button>
+<nav id="menu"><div class="menu-head">📚 Sommaire</div><div id="menuList"></div></nav>
+<div id="menuOverlay"></div>
+<div class="wrap">
+<header class="hero">
+  <h1>🐑 Le Livre de Moutons — le tuto d'Alexandre</h1>
+  <p>Un guide <b>pas à pas</b>, très détaillé, pour comprendre et fabriquer ton jeu sur Scratch.</p>
+  <p>À chaque étape, tu vois les <b>vrais blocs Scratch</b> et on t'explique <b>ce que fait chaque bloc</b>, tout simplement.</p>
+</header>
+
+<h2 class="chap">🎮 D'abord : joue au jeu déjà fini !</h2>
+<div class="box">
+<p>Dans ce dossier, il y a le fichier <span class="mono">Livre-de-Moutons.sb3</span> : c'est le <b>jeu complet, déjà fabriqué</b>. Regarde-le marcher, ça t'aidera à comprendre où tu vas.</p>
+<div class="steps">
+<div class="step">Va sur <b>scratch.mit.edu</b> et clique <b>Créer</b>.</div>
+<div class="step">En haut à gauche, clique <b>Fichier</b> → <b>Importer depuis votre ordinateur</b>.</div>
+<div class="step">Choisis le fichier <span class="mono">Livre-de-Moutons.sb3</span> (il est dans ce dossier).</div>
+<div class="step">Clique le <b>drapeau vert</b> 🟢 (en haut à droite). Pour voir en <b>grand</b>, clique l'icône plein écran (les 4 flèches en haut à droite de la scène).</div>
+<div class="step"><b>Ouvre un booster :</b> clique le <b>paquet</b>. Il se <b>déchire</b> 🎉 et 5 cartes surgissent une par une en se <b>retournant</b> (le dos se retourne pour montrer le mouton). Une carte nouvelle fait « ★ Nouvelle ! », un double fait monter le <b>niveau</b>.</div>
+<div class="step"><b>Ta réserve de boosters :</b> le petit <b>chiffre doré</b> sur le bouton « Booster » montre combien de paquets il te reste. À chaque paquet ouvert, il baisse de 1. Il se <b>recharge tout seul</b> avec le temps. Quand il est à 0, attends un peu !</div>
+<div class="step"><b>Vois ta collection :</b> clique le bouton <b>Album</b> 📖. C'est un vrai <b>livre à pages</b> : <b>6 grandes cartes par page</b>. Utilise les <b>flèches ◀ ▶</b> pour tourner les pages (les cartes glissent comme un livre qu'on tourne). Tes moutons obtenus ont leur badge de <b>niveau</b> ; les autres sont cachés derrière un <b>dos de carte</b>. En haut, le compteur <b>X / 36</b>. Clique une carte pour son nom, sa rareté et son niveau.</div>
+</div>
+<p class="lead">Maintenant que tu as vu le but, on va apprendre à en construire le cœur, petit morceau par petit morceau. (Les jolies animations, les sons et la réserve de boosters sont des bonus déjà tout prêts dans le jeu — tu pourras les explorer plus tard.)</p>
+</div>
+
+<h2 class="chap" id="verificateur">🔍 Vérifie ton travail (dépose ton fichier .sb3)</h2>
+<div class="box">
+<p>Quand tu as fini une leçon (ou plusieurs), <b>enregistre ton projet</b> : dans Scratch, <b>Fichier → Enregistrer sur votre ordinateur</b>. Tu obtiens un fichier <span class="mono">.sb3</span>. Dépose-le ici : je regarde ce que tu as déjà fait et ce qu'il manque, leçon par leçon.</p>
+<div class="verifdrop" id="verifdrop">
+  <input type="file" id="sb3input" accept=".sb3" style="display:none">
+  <button type="button" id="verifBtn">📂 Choisir mon fichier .sb3</button>
+  <div class="verifhint">…ou glisse ton fichier ici</div>
+</div>
+<div id="verifResult"></div>
+<p class="verifprivacy">🔒 Tout se passe <b>dans ton navigateur</b> : ton fichier n'est <b>pas envoyé</b> sur Internet.</p>
+</div>
+
+<h2 class="chap">🧰 La boîte à outils de Scratch (à lire avant de coder)</h2>
+<div class="box">
+<h3>🖥️ L'écran de Scratch — où est quoi ?</h3>
+<p>Voici comment est fait l'éditeur Scratch. Repère bien les 8 zones : on t'y renverra tout le temps (« clique le bouton Choisir un sprite », « va dans l'onglet Costumes »…).</p>
+<svg viewBox="0 0 1000 620" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width:960px;display:block;margin:8px auto;border:1px solid #cdd6ea;border-radius:12px;background:#eef1f7">
+<rect x="0" y="0" width="1000" height="620" rx="12" fill="#eef1f7"/>
+<rect x="0" y="0" width="1000" height="40" fill="#4c97ff"/><text x="16" y="26" font-size="15" fill="#fff" font-weight="bold">🐱 Scratch</text><text x="120" y="26" font-size="14" fill="#dcebff">Fichier   Édition</text>
+<rect x="8" y="48" width="70" height="30" rx="8" fill="#fff" stroke="#4c97ff" stroke-width="2"/><text x="20" y="68" font-size="13" fill="#4c97ff" font-weight="bold">Code</text>
+<rect x="84" y="48" width="86" height="30" rx="8" fill="#e7ebf3"/><text x="94" y="68" font-size="13" fill="#5a6b8c">Costumes</text>
+<rect x="176" y="48" width="60" height="30" rx="8" fill="#e7ebf3"/><text x="188" y="68" font-size="13" fill="#5a6b8c">Sons</text>
+<rect x="8" y="88" width="150" height="524" rx="8" fill="#fff" stroke="#dfe4ee"/><circle cx="30" cy="104" r="12" fill="#4c97ff"/><text x="48" y="108" font-size="12" fill="#3a4560">Mouvement</text><circle cx="30" cy="144" r="12" fill="#9966ff"/><text x="48" y="148" font-size="12" fill="#3a4560">Apparence</text><circle cx="30" cy="184" r="12" fill="#cf63cf"/><text x="48" y="188" font-size="12" fill="#3a4560">Son</text><circle cx="30" cy="224" r="12" fill="#ffbf00"/><text x="48" y="228" font-size="12" fill="#3a4560">Événements</text><circle cx="30" cy="264" r="12" fill="#ffab19"/><text x="48" y="268" font-size="12" fill="#3a4560">Contrôle</text><circle cx="30" cy="304" r="12" fill="#5cb1d6"/><text x="48" y="308" font-size="12" fill="#3a4560">Capteurs</text><circle cx="30" cy="344" r="12" fill="#59c059"/><text x="48" y="348" font-size="12" fill="#3a4560">Opérateurs</text><circle cx="30" cy="384" r="12" fill="#ff8c1a"/><text x="48" y="388" font-size="12" fill="#3a4560">Variables</text><circle cx="30" cy="424" r="12" fill="#ff6680"/><text x="48" y="428" font-size="12" fill="#3a4560">Mes Blocs</text>
+<rect x="166" y="88" width="196" height="524" rx="8" fill="#f7f9fc" stroke="#dfe4ee"/>
+<rect x="182" y="104" width="150" height="26" rx="8" fill="#ffbf00"/><text x="192" y="122" font-size="12" fill="#5b4300">quand ⚑ cliqué</text>
+<rect x="182" y="140" width="120" height="24" rx="6" fill="#ff8c1a"/><text x="192" y="157" font-size="12" fill="#fff">mettre … à …</text>
+<rect x="182" y="172" width="130" height="24" rx="6" fill="#ffab19"/><text x="192" y="189" font-size="12" fill="#5b4300">répéter … fois</text>
+<rect x="182" y="204" width="120" height="24" rx="6" fill="#9966ff"/><text x="192" y="221" font-size="12" fill="#fff">dire … </text>
+<rect x="372" y="88" width="286" height="524" rx="8" fill="#fbfcfe" stroke="#dfe4ee"/>
+<rect x="392" y="120" width="150" height="26" rx="8" fill="#ffbf00"/><text x="402" y="138" font-size="12" fill="#5b4300">quand ⚑ cliqué</text>
+<rect x="392" y="150" width="170" height="24" rx="6" fill="#ff8c1a"/><text x="402" y="167" font-size="12" fill="#fff">mettre [dé] à …</text>
+<rect x="392" y="180" width="140" height="24" rx="6" fill="#ffab19"/><text x="402" y="197" font-size="12" fill="#5b4300">si … alors</text>
+<rect x="664" y="52" width="322" height="248" rx="8" fill="#fff" stroke="#dfe4ee"/>
+<circle cx="686" cy="70" r="10" fill="#4cbb17"/><circle cx="712" cy="70" r="10" fill="#e64b3c"/><rect x="956" y="60" width="22" height="20" rx="4" fill="#e7ebf3"/><text x="960" y="75" font-size="12">⤢</text>
+<rect x="700" y="92" width="250" height="196" rx="6" fill="#e1eefc"/><rect x="800" y="120" width="70" height="96" rx="8" fill="#fff" stroke="#8ab" /><text x="808" y="172" font-size="26">🐑</text><rect x="712" y="250" width="90" height="28" rx="10" fill="#4c97ff"/><text x="726" y="269" font-size="13" fill="#fff">Booster</text>
+<rect x="664" y="312" width="250" height="180" rx="8" fill="#fff" stroke="#dfe4ee"/><text x="676" y="332" font-size="12" fill="#5a6b8c" font-weight="bold">Sprites</text>
+<rect x="676" y="344" width="60" height="60" rx="8" fill="#eaf1ff" stroke="#4c97ff"/><text x="694" y="382" font-size="22">🐑</text>
+<rect x="744" y="344" width="60" height="60" rx="8" fill="#f3f5f9" stroke="#dfe4ee"/><rect x="812" y="344" width="60" height="60" rx="8" fill="#f3f5f9" stroke="#dfe4ee"/>
+<circle cx="884" cy="470" r="20" fill="#4c97ff"/><text x="884" y="477" font-size="20" fill="#fff" text-anchor="middle">🐱</text>
+<rect x="922" y="312" width="64" height="180" rx="8" fill="#fff" stroke="#dfe4ee"/><text x="936" y="332" font-size="12" fill="#5a6b8c" font-weight="bold">Scène</text><rect x="932" y="344" width="44" height="34" rx="5" fill="#e1eefc"/>
+<circle cx="72" cy="63" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="72" y="68" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1</text><circle cx="150" cy="300" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="150" y="305" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text><circle cx="500" cy="300" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="500" y="305" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">3</text><circle cx="824" cy="92" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="824" y="97" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">4</text><circle cx="700" cy="70" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="700" y="75" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">5</text><circle cx="700" cy="332" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="700" y="337" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">6</text><circle cx="884" cy="440" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="884" y="445" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">7</text><circle cx="954" cy="332" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="954" y="337" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">8</text>
+</svg>
+<ol class="blocdesc"><li><b>1.</b> Les onglets <b>Code / Costumes / Sons</b> — pour écrire le code, dessiner/importer les costumes, ou ajouter des sons.</li><li><b>2.</b> La <b>palette de blocs</b> — les tiroirs de couleur (Mouvement, Apparence…). Tu attrapes un bloc ici.</li><li><b>3.</b> La <b>zone de code</b> — la grande zone où tu <b>glisses et emboîtes</b> les blocs.</li><li><b>4.</b> La <b>scène</b> — c'est là que le <b>jeu s'affiche</b> quand il tourne.</li><li><b>5.</b> Le <b>drapeau vert</b> 🟢 (démarrer), le <b>rond rouge</b> 🔴 (arrêter), et l'icône <b>plein écran</b> ⤢ (en haut à droite de la scène).</li><li><b>6.</b> La <b>liste des sprites</b> — tous tes personnages/objets (Carte, Paquet, boutons…).</li><li><b>7.</b> Le bouton bleu <b>« Choisir un sprite »</b> — passe la souris dessus pour <b>Peindre</b> un nouveau sprite ou en importer un.</li><li><b>8.</b> La <b>Scène</b> (à droite des sprites) — clique ici pour ajouter/changer les <b>arrière-plans</b>.</li></ol>
+<hr style="border:none;border-top:1px solid #e3ebfa;margin:16px 0">
+<p><b>Les blocs sont rangés dans des tiroirs de couleur</b>, sur le côté gauche. Un bloc se trouve toujours dans le tiroir de sa couleur :</p>
+<div class="legend">
+<span class="chip" style="background:#4c97ff">Mouvement</span>
+<span class="chip" style="background:#9966ff">Apparence</span>
+<span class="chip" style="background:#cf63cf">Son</span>
+<span class="chip" style="background:#ffbf00;color:#5b4300">Événements</span>
+<span class="chip" style="background:#ffab19;color:#5b4300">Contrôle</span>
+<span class="chip" style="background:#5cb1d6">Capteurs</span>
+<span class="chip" style="background:#59c059">Opérateurs</span>
+<span class="chip" style="background:#ff8c1a">Variables</span>
+<span class="chip" style="background:#ff6680">Mes Blocs</span>
+</div>
+<p><b>Pour poser un bloc :</b> attrape-le dans son tiroir avec la souris et fais-le glisser dans la grande zone blanche à droite (la « zone de code »). Quand deux blocs sont proches, une <b>ombre grise</b> apparaît : lâche, et ils s'emboîtent comme des Lego. 🧱</p>
+<p><b>Pour changer un nombre ou un mot :</b> clique dans la petite bulle blanche du bloc et tape ce que tu veux.</p>
+<p><b>Pour créer une variable ou une liste :</b> va dans le tiroir orange <b>Variables</b>, clique <b>Créer une variable</b> (ou <b>Créer une liste</b>), écris son nom, puis <b>OK</b>.</p>
+<p><b>Pour lancer le programme :</b> clique le <b>drapeau vert</b> 🟢. <b>Pour tout arrêter :</b> clique le <b>rond rouge</b> 🔴.</p>
+<p><b>Trois mots à connaître :</b> un <b>sprite</b> = un personnage/objet ; un <b>costume</b> = un dessin que le sprite peut porter ; un <b>arrière-plan</b> = le décor de la scène.</p>
+
+<div class="astuce" style="background:#fbfdff;border-color:#cdd6ea"><h4 style="color:#2f6fd6">🔎 Gros plans : les 3 gestes qui reviennent tout le temps</h4>
+<h3>A) Créer une variable (ou une liste)</h3><svg viewBox="0 0 660 300" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;display:block;margin:6px auto;border:1px solid #cdd6ea;border-radius:12px;background:#f5f7fb">
+<rect x="24" y="20" width="200" height="36" rx="18" fill="#ff8c1a"/><text x="40" y="43" font-size="14" font-weight="bold" fill="#fff">Créer une variable</text>
+<rect x="238" y="20" width="160" height="36" rx="18" fill="#e7ebf3" stroke="#cdd6ea"/><text x="256" y="43" font-size="14" fill="#5a6b8c">Créer une liste</text>
+<rect x="150" y="86" width="380" height="188" rx="14" fill="#fff" stroke="#cdd6ea" stroke-width="2"/>
+<text x="172" y="116" font-size="16" font-weight="bold" fill="#22314e">Nouvelle variable</text>
+<rect x="172" y="130" width="336" height="34" rx="8" fill="#f4f7ff" stroke="#b9c9e8"/><text x="184" y="152" font-size="15" fill="#22314e">dé</text>
+<circle cx="184" cy="192" r="8" fill="#4c97ff"/><circle cx="184" cy="192" r="3" fill="#fff"/><text x="202" y="197" font-size="13" fill="#3a4560">Pour tous les sprites</text>
+<circle cx="184" cy="220" r="8" fill="#fff" stroke="#99a3b8"/><text x="202" y="225" font-size="13" fill="#3a4560">Pour ce sprite uniquement</text>
+<rect x="428" y="234" width="80" height="30" rx="8" fill="#4cbb17"/><text x="452" y="254" font-size="14" fill="#fff">OK</text>
+<circle cx="238" cy="38" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="238" y="43" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1</text><circle cx="524" cy="147" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="524" y="152" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text><circle cx="360" cy="206" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="360" y="211" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">3</text><circle cx="400" cy="249" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="400" y="254" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">4</text></svg>
+<ol class="blocdesc"><li><b>1.</b> Dans le tiroir <b>Variables</b>, clique <b>« Créer une variable »</b>.</li><li><b>2.</b> Tape le <b>nom</b> (ex. <span class="mono">dé</span>).</li><li><b>3.</b> Laisse coché <b>« Pour tous les sprites »</b>.</li><li><b>4.</b> Clique <b>OK</b>. <i>(Pour une liste : pareil, bouton « Créer une liste ».)</i></li></ol>
+<h3>B) Importer un costume (un dessin)</h3><svg viewBox="0 0 660 300" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;display:block;margin:6px auto;border:1px solid #cdd6ea;border-radius:12px;background:#f5f7fb">
+<rect x="24" y="18" width="60" height="28" rx="7" fill="#e7ebf3"/><text x="36" y="37" font-size="12" fill="#5a6b8c">Code</text>
+<rect x="90" y="18" width="90" height="28" rx="7" fill="#fff" stroke="#4c97ff" stroke-width="2"/><text x="100" y="37" font-size="12" fill="#4c97ff" font-weight="bold">Costumes</text>
+<rect x="186" y="18" width="56" height="28" rx="7" fill="#e7ebf3"/><text x="198" y="37" font-size="12" fill="#5a6b8c">Sons</text>
+<rect x="70" y="96" width="220" height="150" rx="12" fill="#fff" stroke="#cdd6ea" stroke-width="2"/>
+<rect x="80" y="106" width="200" height="30" rx="7" fill="#e9f0ff"/><text x="94" y="126" font-size="14" fill="#2f6fd6" font-weight="bold">⬆  Importer un costume</text>
+<text x="94" y="162" font-size="14" fill="#3a4560">🎨  Peindre</text>
+<text x="94" y="192" font-size="14" fill="#3a4560">🎁  Surprise</text>
+<text x="94" y="222" font-size="14" fill="#3a4560">🔍  Choisir un costume</text>
+<circle cx="60" cy="266" r="22" fill="#4c97ff"/><text x="60" y="273" font-size="18" text-anchor="middle">🎨</text>
+<circle cx="135" cy="32" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="135" y="37" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1</text><circle cx="60" cy="238" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="60" y="243" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text><circle cx="300" cy="121" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="300" y="126" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">3</text></svg>
+<ol class="blocdesc"><li><b>1.</b> Clique l'onglet <b>Costumes</b> (en haut à gauche).</li><li><b>2.</b> Passe la souris sur l'icône <b>costume</b> (le rond bleu, tout en bas).</li><li><b>3.</b> Clique <b>« Importer un costume »</b>, puis choisis le fichier dans <span class="mono">elements/…</span>.</li></ol>
+<p style="font-size:14px;color:#5a6b8c">➡️ Même principe pour un <b>sprite</b> (bouton « Choisir un sprite »), un <b>arrière-plan</b> (sur la Scène), ou un <b>son</b> (onglet Sons).</p>
+<h3>C) Créer un bloc perso (Mes Blocs)</h3><svg viewBox="0 0 660 300" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;display:block;margin:6px auto;border:1px solid #cdd6ea;border-radius:12px;background:#f5f7fb">
+<circle cx="34" cy="34" r="11" fill="#ff6680"/><text x="52" y="39" font-size="14" fill="#3a4560" font-weight="bold">Mes Blocs</text>
+<rect x="24" y="58" width="150" height="34" rx="8" fill="#ff6680"/><text x="44" y="80" font-size="14" fill="#fff" font-weight="bold">Créer un bloc</text>
+<rect x="196" y="80" width="380" height="170" rx="14" fill="#fff" stroke="#cdd6ea" stroke-width="2"/>
+<text x="216" y="110" font-size="16" font-weight="bold" fill="#22314e">Créer un bloc</text>
+<rect x="216" y="128" width="250" height="40" rx="12" fill="#ff6680"/><text x="236" y="153" font-size="15" fill="#fff" font-weight="bold">tirer une carte</text>
+<rect x="474" y="206" width="82" height="30" rx="8" fill="#4cbb17"/><text x="500" y="226" font-size="14" fill="#fff">OK</text>
+<circle cx="190" cy="34" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="190" y="39" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1</text><circle cx="174" cy="75" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="174" y="80" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text><circle cx="340" cy="148" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="340" y="153" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">3</text><circle cx="452" cy="221" r="15" fill="#e6522c" stroke="#fff" stroke-width="2"/><text x="452" y="226" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">4</text></svg>
+<ol class="blocdesc"><li><b>1.</b> Va dans le tiroir rose <b>Mes Blocs</b>.</li><li><b>2.</b> Clique <b>« Créer un bloc »</b>.</li><li><b>3.</b> Écris le nom : <span class="mono">tirer une carte</span>.</li><li><b>4.</b> Clique <b>OK</b> : un chapeau <b>« définir tirer une carte »</b> apparaît — tu mets la recette dessous (Leçon 3).</li></ol>
+</div>
+</div>
+
+<h2 class="chap">🔺 Comment lire un bloc (sa forme te dit ce qu'il fait)</h2>
+<div class="box">
+<p>Avant de coder, apprends à reconnaître la <b>forme</b> d'un bloc. La forme, c'est comme la forme d'un panneau : elle t'indique à quoi il sert.</p>
+<p><b>1. Le chapeau</b> — arrondi en haut. Il <b>démarre</b> un script quand quelque chose arrive (drapeau cliqué…). Tout script commence par un chapeau.</p>
+<img class="blocs-img" src="images/blocs/primer-01-chapeau.png" alt="bloc chapeau" style="max-width:320px">
+<p><b>2. La brique</b> — encoches en haut et en bas. C'est <b>une action</b>. Les briques s'empilent et se font de haut en bas.</p>
+<img class="blocs-img" src="images/blocs/primer-02-brique.png" alt="bloc brique" style="max-width:320px">
+<p><b>3. Le bloc en C</b> — il <b>entoure</b> d'autres blocs, pour les répéter ou les faire seulement si une condition est vraie.</p>
+<img class="blocs-img" src="images/blocs/primer-03-boucle.png" alt="bloc en C" style="max-width:320px">
+<p><b>4. Le rapporteur (ovale)</b> — il ne s'exécute pas tout seul : il <b>donne une valeur</b> (un nombre ou un mot) qu'on glisse <i>dans le trou</i> d'un autre bloc.</p>
+<img class="blocs-img" src="images/blocs/primer-04-rapporteur.png" alt="bloc rapporteur" style="max-width:360px">
+<p><b>5. Le booléen (hexagone pointu)</b> — il répond seulement <b>oui</b> ou <b>non</b> (vrai/faux). On le glisse dans le trou pointu d'un <span class="mono">si</span>.</p>
+<img class="blocs-img" src="images/blocs/primer-05-booleen.png" alt="bloc booléen" style="max-width:320px">
+<p>👉 Si tu sais lire les formes, tu peux <b>deviner</b> ce que fait un bloc, et comprendre pourquoi certains blocs rentrent dans d'autres (un ovale dans un trou rond, un hexagone dans un trou pointu).</p>
+</div>
+
+<h2 class="chap">🃏 Les 36 cartes et leurs raretés</h2>
+<div class="box">
+<p class="lead">Chaque carte a une <b>rareté</b> (la couleur du bandeau) et deux forces : ❤ le cœur et 🌿 la défense. Plus une carte est rare, plus elle est forte… mais plus elle est difficile à obtenir.</p>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#ff5ea8">Arc-en-ciel</span> — 1 carte(s) · 0.2% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#ff5ea8"><img src="images/cartes/carte-02.jpg" alt="Mouton arc-en-ciel"><figcaption>02 · Mouton arc-en-ciel<br><span class="mini">❤100 🌿100</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#1ab0c4">Diamant</span> — 2 carte(s) · 0.8% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#1ab0c4"><img src="images/cartes/carte-01.jpg" alt="Mouton des glaces"><figcaption>01 · Mouton des glaces<br><span class="mini">❤88 🌿76</span></figcaption></figure><figure class="card" style="--rc:#1ab0c4"><img src="images/cartes/carte-06.jpg" alt="Mouton cristal"><figcaption>06 · Mouton cristal<br><span class="mini">❤82 🌿72</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#f1c40f">Dorée</span> — 3 carte(s) · 2% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#f1c40f"><img src="images/cartes/carte-03.jpg" alt="Mouton pharaon"><figcaption>03 · Mouton pharaon<br><span class="mini">❤68 🌿58</span></figcaption></figure><figure class="card" style="--rc:#f1c40f"><img src="images/cartes/carte-04.jpg" alt="Mouton soleil"><figcaption>04 · Mouton soleil<br><span class="mini">❤72 🌿60</span></figcaption></figure><figure class="card" style="--rc:#f1c40f"><img src="images/cartes/carte-05.jpg" alt="Mouton gardien du tresor"><figcaption>05 · Mouton gardien du tresor<br><span class="mini">❤75 🌿64</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#e67e22">Légendaire</span> — 4 carte(s) · 5% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#e67e22"><img src="images/cartes/carte-27.jpg" alt="Mouton roi"><figcaption>27 · Mouton roi<br><span class="mini">❤46 🌿38</span></figcaption></figure><figure class="card" style="--rc:#e67e22"><img src="images/cartes/carte-28.jpg" alt="Mouton super-heros"><figcaption>28 · Mouton super-heros<br><span class="mini">❤50 🌿42</span></figcaption></figure><figure class="card" style="--rc:#e67e22"><img src="images/cartes/carte-29.jpg" alt="Mouton dragon"><figcaption>29 · Mouton dragon<br><span class="mini">❤54 🌿44</span></figcaption></figure><figure class="card" style="--rc:#e67e22"><img src="images/cartes/carte-30.jpg" alt="Mouton fantome"><figcaption>30 · Mouton fantome<br><span class="mini">❤48 🌿40</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#c0392b">Épique</span> — 6 carte(s) · 12% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-26.jpg" alt="Mouton astronaute"><figcaption>26 · Mouton astronaute<br><span class="mini">❤35 🌿32</span></figcaption></figure><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-31.jpg" alt="Mouton pirate"><figcaption>31 · Mouton pirate<br><span class="mini">❤30 🌿24</span></figcaption></figure><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-32.jpg" alt="Mouton chevalier"><figcaption>32 · Mouton chevalier<br><span class="mini">❤34 🌿25</span></figcaption></figure><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-33.jpg" alt="Mouton ninja"><figcaption>33 · Mouton ninja<br><span class="mini">❤29 🌿28</span></figcaption></figure><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-34.jpg" alt="Mouton magicien"><figcaption>34 · Mouton magicien<br><span class="mini">❤31 🌿30</span></figcaption></figure><figure class="card" style="--rc:#c0392b"><img src="images/cartes/carte-35.jpg" alt="Mouton explorateur"><figcaption>35 · Mouton explorateur<br><span class="mini">❤33 🌿27</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#8a4bff">Rare</span> — 8 carte(s) · 25% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-08.jpg" alt="Mouton muscle"><figcaption>08 · Mouton muscle<br><span class="mini">❤24 🌿18</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-09.jpg" alt="Mouton lecteur"><figcaption>09 · Mouton lecteur<br><span class="mini">❤20 🌿16</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-16.jpg" alt="Mouton detective"><figcaption>16 · Mouton detective<br><span class="mini">❤19 🌿17</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-17.jpg" alt="Mouton pecheur"><figcaption>17 · Mouton pecheur<br><span class="mini">❤20 🌿16</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-18.jpg" alt="Mouton pilote"><figcaption>18 · Mouton pilote<br><span class="mini">❤22 🌿19</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-21.jpg" alt="Mouton cuisinier"><figcaption>21 · Mouton cuisinier<br><span class="mini">❤21 🌿17</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="cardrow"><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-22.jpg" alt="Mouton footballeur"><figcaption>22 · Mouton footballeur<br><span class="mini">❤22 🌿18</span></figcaption></figure><figure class="card" style="--rc:#8a4bff"><img src="images/cartes/carte-23.jpg" alt="Mouton danseur"><figcaption>23 · Mouton danseur<br><span class="mini">❤20 🌿18</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="rar-head"><span class="badge" style="background:#3aa0ff">Commune</span> — 12 carte(s) · 55% par tirage</div><div class="cardrow"><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-07.jpg" alt="Mouton maladroit"><figcaption>07 · Mouton maladroit<br><span class="mini">❤11 🌿6</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-10.jpg" alt="Mouton joueur"><figcaption>10 · Mouton joueur<br><span class="mini">❤13 🌿8</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-11.jpg" alt="Mouton jardinier"><figcaption>11 · Mouton jardinier<br><span class="mini">❤12 🌿7</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-12.jpg" alt="Mouton peintre"><figcaption>12 · Mouton peintre<br><span class="mini">❤11 🌿8</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-13.jpg" alt="Mouton chanteur"><figcaption>13 · Mouton chanteur<br><span class="mini">❤12 🌿8</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-14.jpg" alt="Mouton mangeur"><figcaption>14 · Mouton mangeur<br><span class="mini">❤12 🌿9</span></figcaption></figure></div></div>
+<div class="cardrow-wrap"><div class="cardrow"><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-15.jpg" alt="Mouton dormeur"><figcaption>15 · Mouton dormeur<br><span class="mini">❤14 🌿6</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-19.jpg" alt="Mouton promeneur"><figcaption>19 · Mouton promeneur<br><span class="mini">❤13 🌿8</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-20.jpg" alt="Mouton bricoleur"><figcaption>20 · Mouton bricoleur<br><span class="mini">❤12 🌿7</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-24.jpg" alt="Mouton farceur"><figcaption>24 · Mouton farceur<br><span class="mini">❤12 🌿7</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-25.jpg" alt="Mouton timide"><figcaption>25 · Mouton timide<br><span class="mini">❤11 🌿6</span></figcaption></figure><figure class="card" style="--rc:#3aa0ff"><img src="images/cartes/carte-36.jpg" alt="Mouton cueilleur"><figcaption>36 · Mouton cueilleur<br><span class="mini">❤13 🌿8</span></figcaption></figure></div></div>
+<h3 style="margin-top:16px">Combien de chances d'obtenir chaque carte ?</h3>
+<p>À chaque carte tirée, on choisit d'abord une rareté, puis une carte au hasard dedans :</p>
+<table><thead><tr><th>Rareté</th><th class="num">Nb cartes</th><th class="num">Chance de la rareté</th><th class="num">Une carte précise</th><th class="num">Dé 1–1000</th></tr></thead><tbody><tr><td><span class="badge" style="background:#ff5ea8">Arc-en-ciel</span></td><td class="num">1</td><td class="num">0.2%</td><td class="num">1 sur 500</td><td class="num">999–1000</td></tr>
+<tr><td><span class="badge" style="background:#1ab0c4">Diamant</span></td><td class="num">2</td><td class="num">0.8%</td><td class="num">1 sur 250</td><td class="num">991–998</td></tr>
+<tr><td><span class="badge" style="background:#f1c40f">Dorée</span></td><td class="num">3</td><td class="num">2%</td><td class="num">1 sur 150</td><td class="num">971–990</td></tr>
+<tr><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="num">4</td><td class="num">5%</td><td class="num">1 sur 80</td><td class="num">921–970</td></tr>
+<tr><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">6</td><td class="num">12%</td><td class="num">1 sur 50</td><td class="num">801–920</td></tr>
+<tr><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">8</td><td class="num">25%</td><td class="num">1 sur 32</td><td class="num">551–800</td></tr>
+<tr><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">12</td><td class="num">55%</td><td class="num">1 sur 22</td><td class="num">1–550</td></tr></tbody></table>
+<p><b>« 1 sur 500 » veut dire :</b> si tu tires 500 cartes, tu en auras <b>en moyenne</b> une seule arc-en-ciel. Parfois plus tôt, parfois plus tard : c'est ça, le hasard. C'est pour ça que les cartes rares font rêver !</p>
+</div>
+
+<h2 class="chap">📦 Les images du jeu (à importer dans Scratch)</h2>
+<div class="box">
+<p>Tous les dessins et les sons du jeu sont rangés dans le dossier <span class="mono">elements/</span>, à côté de ce tuto. Tu iras les chercher là quand une leçon te le demande.</p>
+<table>
+<thead><tr><th>Dossier</th><th>Ce qu'il contient</th><th>À quoi ça sert</th></tr></thead>
+<tbody>
+<tr><td class="mono">elements/cartes/</td><td>Les 36 moutons + le dos de carte</td><td>Les <b>costumes</b> du sprite « Carte »</td></tr>
+<tr><td class="mono">elements/paquet/</td><td>Paquet fermé et paquet ouvert</td><td>Les 2 costumes du sprite « Paquet »</td></tr>
+<tr><td class="mono">elements/boutons/</td><td>Boutons Booster et Album</td><td>Les costumes des boutons</td></tr>
+<tr><td class="mono">elements/fleches/</td><td>Flèches gauche et droite</td><td>Pour tourner les pages de l'album</td></tr>
+<tr><td class="mono">elements/decors/</td><td>Décor booster, décor album, couverture</td><td>Les <b>arrière-plans</b> (Scène)</td></tr>
+<tr><td class="mono">elements/pastilles/</td><td>Badges de niveau et chiffres</td><td>Petites images pour les niveaux et la réserve</td></tr>
+<tr><td class="mono">elements/sons/</td><td>4 sons (pop, nouvelle carte, rare, déchirure)</td><td>Les <b>sons</b> du jeu</td></tr>
+</tbody></table>
+<h3>Comment importer une image ou un son</h3>
+<div class="steps">
+<div class="step"><b>Un costume :</b> choisis un sprite → onglet <b>Costumes</b> (en haut à gauche) → passe la souris sur l'icône <b>🐱⤴ (Choisir un costume)</b> en bas → <b>Importer un costume</b> → va dans <span class="mono">elements/…</span> et choisis le fichier.</div>
+<div class="step"><b>Un arrière-plan :</b> clique la <b>Scène</b> (à droite) → onglet <b>Arrière-plans</b> → <b>Importer un arrière-plan</b> → prends un fichier de <span class="mono">elements/decors/</span>.</div>
+<div class="step"><b>Un son :</b> onglet <b>Sons</b> → <b>Importer un son</b> → prends un fichier de <span class="mono">elements/sons/</span>.</div>
+<div class="step"><b>Astuce ordre :</b> pour le sprite « Carte », importe les 36 cartes <b>dans l'ordre</b> (carte-01, carte-02, …). Le costume nº 7 doit être la carte nº 7 : comme ça, « basculer sur le costume (carte) » montre le bon mouton.</div>
+</div>
+</div>
+
+<h2 class="chap">🛠️ Préparer ton projet (à faire en premier)</h2>
+<div class="box">
+<p class="lead">Avant de coder, on installe le terrain : un projet vide, le sprite des cartes avec ses 36 costumes, et les décors. Fais ces étapes dans l'ordre.</p>
+<h3>1. Nouveau projet</h3>
+<div class="steps">
+<div class="step">Va sur <b>scratch.mit.edu</b> → <b>Créer</b>.</div>
+<div class="step">Clic droit sur le <b>chat</b> (au milieu) → <b>Supprimer</b> : on n'en a pas besoin.</div>
+<div class="step">En haut, écris le nom du projet : <b>Livre de Moutons</b>.</div>
+</div>
+<h3>2. Le sprite « Carte » et ses 36 costumes</h3>
+<p>C'est LE sprite qui montrera les moutons. On lui donne les 36 cartes comme <b>costumes</b>.</p>
+<div class="steps">
+<div class="step">En bas à droite, passe la souris sur l'icône sprite 🐱 → <b>Peindre</b> (crée un sprite vide). Dans la case <b>Sprite</b> (en haut), renomme-le <b>Carte</b>.</div>
+<div class="step">Onglet <b>Costumes</b> (en haut à gauche) → passe la souris sur l'icône costume en bas → <b>Importer un costume</b>.</div>
+<div class="step">Va dans <span class="mono">elements/cartes/</span> et importe <b>carte-01</b>, puis <b>carte-02</b>, … jusqu'à <b>carte-36</b> — <b>dans l'ordre</b>, un par un.</div>
+<div class="step">Importe aussi <b>dos-de-carte</b> (il servira de dos ; il se met en dernier, costume nº 37).</div>
+<div class="step">S'il reste un costume blanc du départ, supprime-le (clic droit → supprimer).</div>
+</div>
+<div class="callout">⚠️ <b>L'ordre compte énormément.</b> Le costume nº 7 doit être la carte nº 7. Comme ça, plus tard, « basculer sur le costume (carte) » affiche le bon mouton.</div>
+<h3>3. Les décors (arrière-plans)</h3>
+<div class="steps">
+<div class="step">Clique la <b>Scène</b> (le grand carré blanc à droite) → onglet <b>Arrière-plans</b>.</div>
+<div class="step"><b>Importer un arrière-plan</b> → <span class="mono">elements/decors/decor-booster</span>. Renomme cet arrière-plan <b>Accueil</b> (dans la liste des arrière-plans).</div>
+<div class="step">Importe aussi <span class="mono">decor-album</span> et renomme-le <b>Album</b>.</div>
+</div>
+</div>
+
+<h2 class="chap">📦 Créer les variables et les listes (avec les données)</h2>
+<div class="box">
+<p class="lead">Ce sont les boîtes qui retiennent le hasard et la collection. Tout se passe dans le tiroir orange <b>Variables</b>. Clique le sprite <b>Carte</b> d'abord.</p>
+<h3>1. Les variables</h3>
+<div class="steps">
+<div class="step">Clique <b>Créer une variable</b> → nom <b>dé</b> → « pour tous les sprites » → OK.</div>
+<div class="step">Recommence pour la variable <b>carte</b>.</div>
+</div>
+<p>Ces deux-là suffisent pour toutes les leçons de base. <i>(Le jeu complet en ajoute d'autres — Collection, Boosters, page… — voir le chapitre « bonus » plus bas.)</i></p>
+<h3>2. Les listes</h3>
+<p>Clique <b>Créer une liste</b> (toujours « pour tous les sprites ») et crée ces <b>10 listes</b> :</p>
+<table><thead><tr><th>Liste</th><th>À quoi ça sert</th></tr></thead><tbody>
+<tr><td class="mono">noms</td><td>Les 36 noms de moutons, dans l'ordre</td></tr>
+<tr><td class="mono">possede</td><td>Une case par carte : 0 = pas obtenue, 1 = obtenue</td></tr>
+<tr><td class="mono">niveau</td><td>Le niveau de chaque carte</td></tr>
+<tr><td class="mono">communes</td><td rowspan="7">Les <b>numéros</b> des cartes de chaque rareté (voir le tableau ci-dessous)</td></tr>
+<tr><td class="mono">rares</td></tr><tr><td class="mono">epiques</td></tr><tr><td class="mono">legendaires</td></tr>
+<tr><td class="mono">dorees</td></tr><tr><td class="mono">diamants</td></tr><tr><td class="mono">arcs</td></tr>
+</tbody></table>
+<h3>3. Remplir la liste « noms »</h3>
+<p>Coche la case de <span class="mono">noms</span> pour la voir sur la scène. Clique le petit <b>+</b> en bas de la liste et tape les 36 noms <b>dans cet ordre exact</b> (appuie sur Entrée entre chaque — ça crée la ligne suivante) :</p>
+<table><thead><tr><th class="num">Ligne</th><th>Nom à taper</th><th>(rareté, pour info)</th></tr></thead><tbody><tr><td class="num">1</td><td>Mouton des glaces</td><td>Diamant</td></tr>
+<tr><td class="num">2</td><td>Mouton arc-en-ciel</td><td>Arc-en-ciel</td></tr>
+<tr><td class="num">3</td><td>Mouton pharaon</td><td>Dorée</td></tr>
+<tr><td class="num">4</td><td>Mouton soleil</td><td>Dorée</td></tr>
+<tr><td class="num">5</td><td>Mouton gardien du tresor</td><td>Dorée</td></tr>
+<tr><td class="num">6</td><td>Mouton cristal</td><td>Diamant</td></tr>
+<tr><td class="num">7</td><td>Mouton maladroit</td><td>Commune</td></tr>
+<tr><td class="num">8</td><td>Mouton muscle</td><td>Rare</td></tr>
+<tr><td class="num">9</td><td>Mouton lecteur</td><td>Rare</td></tr>
+<tr><td class="num">10</td><td>Mouton joueur</td><td>Commune</td></tr>
+<tr><td class="num">11</td><td>Mouton jardinier</td><td>Commune</td></tr>
+<tr><td class="num">12</td><td>Mouton peintre</td><td>Commune</td></tr>
+<tr><td class="num">13</td><td>Mouton chanteur</td><td>Commune</td></tr>
+<tr><td class="num">14</td><td>Mouton mangeur</td><td>Commune</td></tr>
+<tr><td class="num">15</td><td>Mouton dormeur</td><td>Commune</td></tr>
+<tr><td class="num">16</td><td>Mouton detective</td><td>Rare</td></tr>
+<tr><td class="num">17</td><td>Mouton pecheur</td><td>Rare</td></tr>
+<tr><td class="num">18</td><td>Mouton pilote</td><td>Rare</td></tr>
+<tr><td class="num">19</td><td>Mouton promeneur</td><td>Commune</td></tr>
+<tr><td class="num">20</td><td>Mouton bricoleur</td><td>Commune</td></tr>
+<tr><td class="num">21</td><td>Mouton cuisinier</td><td>Rare</td></tr>
+<tr><td class="num">22</td><td>Mouton footballeur</td><td>Rare</td></tr>
+<tr><td class="num">23</td><td>Mouton danseur</td><td>Rare</td></tr>
+<tr><td class="num">24</td><td>Mouton farceur</td><td>Commune</td></tr>
+<tr><td class="num">25</td><td>Mouton timide</td><td>Commune</td></tr>
+<tr><td class="num">26</td><td>Mouton astronaute</td><td>Épique</td></tr>
+<tr><td class="num">27</td><td>Mouton roi</td><td>Légendaire</td></tr>
+<tr><td class="num">28</td><td>Mouton super-heros</td><td>Légendaire</td></tr>
+<tr><td class="num">29</td><td>Mouton dragon</td><td>Légendaire</td></tr>
+<tr><td class="num">30</td><td>Mouton fantome</td><td>Légendaire</td></tr>
+<tr><td class="num">31</td><td>Mouton pirate</td><td>Épique</td></tr>
+<tr><td class="num">32</td><td>Mouton chevalier</td><td>Épique</td></tr>
+<tr><td class="num">33</td><td>Mouton ninja</td><td>Épique</td></tr>
+<tr><td class="num">34</td><td>Mouton magicien</td><td>Épique</td></tr>
+<tr><td class="num">35</td><td>Mouton explorateur</td><td>Épique</td></tr>
+<tr><td class="num">36</td><td>Mouton cueilleur</td><td>Commune</td></tr></tbody></table>
+<h3>4. Remplir les 7 listes de rareté</h3>
+<p>Dans chaque liste, tape ces numéros de cartes (un par ligne) :</p>
+<table><thead><tr><th>Liste</th><th>Rareté</th><th>Numéros à taper (un par ligne)</th></tr></thead><tbody><tr><td class="mono">communes</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="mono">7, 10, 11, 12, 13, 14, 15, 19, 20, 24, 25, 36</td></tr>
+<tr><td class="mono">rares</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="mono">8, 9, 16, 17, 18, 21, 22, 23</td></tr>
+<tr><td class="mono">epiques</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="mono">26, 31, 32, 33, 34, 35</td></tr>
+<tr><td class="mono">legendaires</td><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="mono">27, 28, 29, 30</td></tr>
+<tr><td class="mono">dorees</td><td><span class="badge" style="background:#f1c40f">Dorée</span></td><td class="mono">3, 4, 5</td></tr>
+<tr><td class="mono">diamants</td><td><span class="badge" style="background:#1ab0c4">Diamant</span></td><td class="mono">1, 6</td></tr>
+<tr><td class="mono">arcs</td><td><span class="badge" style="background:#ff5ea8">Arc-en-ciel</span></td><td class="mono">2</td></tr></tbody></table>
+<div class="callout">💡 <span class="mono">possede</span> et <span class="mono">niveau</span> se remplissent <b>tout seuls</b> au démarrage (c'est la Leçon 1 juste après). Laisse-les <b>vides</b> pour l'instant.</div>
+</div>
+
+<h2 class="chap">🔨 On construit le jeu — leçon par leçon</h2>
+<p class="lead">Maintenant que le projet est prêt (sprite Carte, décors, variables, listes remplies), on ajoute le code. Ces scripts se mettent sur le sprite <b>Carte</b>. Chaque leçon suit le même plan : <b>🎯 le but</b>, <b>📦 où trouver les blocs</b>, l'image des blocs, <b>🔍 ce que fait chaque bloc</b>, <b>💡 pourquoi</b>, et <b>✅ un test</b>. Prends ton temps, une leçon à la fois.</p>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">1</span> Remplir les listes quand on démarre</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Au début de chaque partie, remettre à zéro la mémoire de ce qu'Alexandre possède, pour repartir proprement.</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> « quand le drapeau vert est cliqué » est dans le tiroir jaune <b>Événements</b>. « supprimer… », « ajouter… », « répéter » : les listes sont dans le tiroir orange <b>Variables</b>, « répéter » dans l'orange <b>Contrôle</b>.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape06-remplir-listes.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>quand le drapeau vert est cliqué</b> — C'est le <i>départ</i>. Dès qu'on clique le drapeau vert en haut de l'écran, Scratch lit ce bloc, puis tous les blocs accrochés en dessous, un par un.</li><li><b>supprimer tous les éléments de la liste (possede)</b> — Il <i>vide complètement</i> la liste « possede ». Résultat : la liste ne contient plus rien du tout.</li><li><b>supprimer tous les éléments de la liste (niveau)</b> — Pareil, il vide la liste « niveau ».</li><li><b>répéter (36) fois</b> — C'est une <i>boucle</i>. Tout ce qui est à l'intérieur va se faire 36 fois de suite, tout seul. On l'utilise pour ne pas écrire 36 fois la même chose.</li><li><b>ajouter (0) à (possede)</b> — À chaque tour de la boucle, il ajoute un « 0 » à la liste « possede ». Après 36 tours, la liste contient 36 zéros : une case par carte. <b>0 = « je n'ai pas encore cette carte ».</b></li><li><b>ajouter (0) à (niveau)</b> — Pareil : après la boucle, « niveau » contient 36 zéros. Le niveau de départ d'une carte pas encore obtenue est 0.</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>Un jeu doit pouvoir <b>recommencer proprement</b>. Si on ne vidait pas les listes, chaque clic sur le drapeau ajouterait encore 36 zéros par-dessus les anciens (72, puis 108…) et tout serait décalé. On vide d'abord, puis on remet 36 zéros bien nets.</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Coche les cases à côté de « possede » et « niveau » dans le tiroir Variables pour les voir sur la scène. Clique le drapeau vert : les deux listes doivent afficher exactement <b>36 lignes de 0</b>.</div>
+    <div class="astuce"><h4>🐑 Astuce</h4>Une <b>boucle</b> « répéter » est ta meilleure amie : elle fait le travail répétitif à ta place. Si un jour il y a 50 cartes, tu changes juste le 36 en 50.</div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">2</span> Le dé du hasard (tirer un nombre)</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Fabriquer un « dé » qui donne un nombre au hasard entre 1 et 1000. C'est lui qui décide si la carte sera commune ou rare.</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> « nombre aléatoire entre » est un bloc <b>vert</b> du tiroir <b>Opérateurs</b>. « mettre … à » est un bloc <b>orange</b> du tiroir <b>Variables</b>.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape07-le-de.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>nombre aléatoire entre (1) et (1000)</b> — Imagine un dé géant à 1000 faces. Ce bloc le lance et donne un nombre au hasard entre 1 et 1000. <b>Tout seul, il n'agit pas</b> : il donne juste un nombre, comme une réponse.</li><li><b>mettre [dé] à ( )</b> — Il prend le nombre donné par le dé géant et le <i>range dans la boîte</i> « dé ». À partir de là, la boîte « dé » contient ce nombre, et on pourra le regarder plus tard.</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>On utilise 1000 (et pas 100) parce que la carte arc-en-ciel doit être <b>très</b> rare : on veut pouvoir lui donner seulement « 2 chances sur 1000 » (soit 0,2 %). Avec 100 faces, on ne pourrait pas descendre aussi bas.</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Coche la case de « dé » pour l'afficher. Clique le drapeau vert <b>plusieurs fois</b>. Tu vois le nombre changer à chaque clic (par exemple 123, puis 742, puis 88). Le hasard fonctionne !</div>
+    <div class="astuce"><h4>🐑 Astuce</h4>Un bloc <b>ovale</b> vert comme « nombre aléatoire » se glisse <i>dans le trou</i> d'un autre bloc. Il ne se pose jamais tout seul : il donne toujours sa réponse à un autre bloc.</div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">3</span> Tirer une carte : l'escalier des raretés</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Selon le nombre du dé, choisir d'abord une RARETÉ, puis piocher une carte au hasard dans cette rareté. On range tout ça dans notre propre bloc « tirer une carte ».</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> « définir tirer une carte » se crée dans le tiroir rose <b>Mes Blocs</b> (bouton « Créer un bloc »). Les « si … alors … sinon » sont dans l'orange <b>Contrôle</b>. « élément … de … » et « longueur de … » sont dans le tiroir <b>Variables</b> (avec les listes).</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape08-tirer-une-carte.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>définir tirer une carte</b> — C'est le <i>titre</i> de notre bloc fait maison. Tout ce qui est en dessous, c'est la recette de « tirer une carte ». Quand on utilisera ce bloc ailleurs, Scratch fera toute cette recette.</li><li><b>mettre [dé] à (nombre aléatoire entre 1 et 1000)</b> — On relance le dé géant : la boîte « dé » reçoit un nouveau nombre au hasard.</li><li><b>si <(dé) < 551> alors …</b> — On <i>vérifie</i> : est-ce que le dé est plus petit que 551 (donc entre 1 et 550) ? Si <b>oui</b>, la carte sera <b>commune</b> et on exécute ce qui est juste en dessous.</li><li><b>mettre [carte] à (élément (nombre aléatoire entre 1 et (longueur de communes)) de communes)</b> — On pioche au hasard dans la liste « communes ». « longueur de communes » = combien il y a de communes (12). « nombre aléatoire entre 1 et 12 » = une ligne au hasard. « élément (…) de communes » = le numéro de carte rangé à cette ligne. Ce numéro va dans la boîte « carte ».</li><li><b>sinon … si <(dé) < 801> alors …</b> — Si le dé n'était PAS < 551, on descend d'une marche : est-il < 801 (donc entre 551 et 800) ? Si oui → carte <b>rare</b>, on pioche dans « rares ».</li><li><b>… et ainsi de suite (921, 971, 991, 999)</b> — On continue à descendre l'escalier : chaque marche teste une tranche de plus en plus rare (épique, légendaire, dorée, diamant). Dès qu'une réponse est « oui », on choisit la carte et on <b>arrête de descendre</b>.</li><li><b>sinon → mettre [carte] à (2)</b> — Tout en bas de l'escalier, il n'y a plus rien à tester : c'est forcément l'arc-en-ciel. Il n'y a qu'une seule carte arc-en-ciel (la n°2), donc on met directement 2 dans « carte ».</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>On choisit la <b>rareté avant la carte</b>. C'est ça qui rend les cartes rares vraiment rares : d'abord on décide « à quel point c'est rare » (avec le dé), puis on pioche <i>équitablement</i> parmi les cartes de ce niveau. Exactement comme les vrais paquets de cartes à collectionner.</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Ajoute juste en dessous : « montrer la variable carte ». Utilise ton bloc « tirer une carte » (dans Mes Blocs) une fois, en cliquant dessus. La boîte « carte » doit afficher un numéro entre 1 et 36. Clique plusieurs fois : le plus souvent tu obtiens des petits numéros de communes, rarement les cartes spéciales.</div>
+    <div class="astuce"><h4>🐑 Astuce</h4>L'escalier « si … sinon si … » se lit comme des questions en cascade : « c'est en dessous de 551 ? Sinon, en dessous de 801 ? Sinon… ». C'est long à regarder, mais chaque marche fait une seule petite chose.</div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">4</span> Nouvelle carte ou double ?</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Une fois la carte tirée : si Alexandre ne l'a pas encore, elle rejoint l'album. S'il l'a déjà, le double fait MONTER la carte de niveau au lieu d'être perdu.</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> « si … alors … sinon » : tiroir <b>Contrôle</b>. « remplacer l'élément … » : tiroir <b>Variables</b> (listes). « regrouper » : tiroir <b>Opérateurs</b>. « dire … pendant … secondes » : tiroir violet <b>Apparence</b>.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape09-nouvelle-ou-double.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>si <(élément (carte) de possede) = 0> alors</b> — On regarde la case de cette carte dans « possede ». Si elle vaut <b>0</b>, c'est qu'on ne l'a pas encore : on entre dans le « alors ».</li><li><b>remplacer l'élément (carte) de la liste (possede) par (1)</b> — On écrit <b>1</b> à la place du 0 dans « possede », à la ligne de cette carte. Ça veut dire : « maintenant, je la possède ».</li><li><b>remplacer l'élément (carte) de la liste (niveau) par (1)</b> — On met son niveau à 1 : c'est une carte toute neuve, elle démarre au niveau 1.</li><li><b>dire (regrouper [Nouvelle carte ! ] et (élément (carte) de noms)) pendant (2) secondes</b> — « regrouper » colle deux morceaux de texte : « Nouvelle carte ! » + le nom de la carte (pris dans la liste « noms »). Le mouton l'annonce dans une bulle pendant 2 secondes.</li><li><b>sinon (on l'a déjà)</b> — Si la case n'était pas 0, c'est qu'on possède déjà la carte : on va dans le « sinon ».</li><li><b>remplacer l'élément (carte) de (niveau) par ((élément (carte) de niveau) + 1)</b> — On prend le niveau actuel de la carte et on <b>ajoute 1</b>. Le double n'est pas perdu : il rend la carte plus forte.</li><li><b>dire (regrouper [Double ! Niveau ] et (…)) pendant 2 secondes</b> — Le mouton annonce « Double ! Niveau 2 » (ou 3, 4…) dans une bulle.</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>Sans cette règle, tomber sur une carte qu'on a déjà serait décevant. Là, <b>chaque double sert à quelque chose</b> : il fait grimper le niveau. On a toujours envie d'ouvrir un nouveau paquet. C'est la règle préférée d'Alexandre — et elle tient en quelques blocs grâce aux listes.</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Utilise « tirer une carte » puis ce bloc, deux fois de suite sur la même carte (tu peux forcer en mettant « mettre [carte] à 7 »). La première fois tu dois voir « Nouvelle carte ! », la deuxième « Double ! Niveau 2 ».</div>
+    
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">5</span> Le booster : 5 cartes d'un coup</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Quand on clique sur le paquet, ouvrir 5 cartes à la suite : tirer, montrer, mettre l'album à jour, attendre un peu, et recommencer.</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> « quand ce sprite est cliqué » : tiroir jaune <b>Événements</b>. « répéter » et « attendre » : orange <b>Contrôle</b>. « basculer sur le costume » et « montrer » : violet <b>Apparence</b>. « tirer une carte » : ton bloc dans <b>Mes Blocs</b>.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape10-booster.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>quand ce sprite est cliqué</b> — Le départ de ce script : il se déclenche quand on clique sur le lutin du paquet de cartes.</li><li><b>répéter (5) fois</b> — La boucle du booster : tout ce qui est dedans se fait 5 fois. Un booster = 5 cartes.</li><li><b>tirer une carte</b> — C'est notre bloc de la leçon 3. Il relance le dé, choisit la rareté et range un numéro de carte dans la boîte « carte ».</li><li><b>basculer sur le costume (carte)</b> — Le lutin prend le dessin numéro (carte). Comme le costume n°7 = la carte n°7, on voit apparaître le bon mouton à l'écran.</li><li><b>montrer</b> — On rend le lutin visible (au cas où il était caché).</li><li><b>(mise à jour de l'album)</b> — On fait la leçon 4 : nouvelle carte ou double, avec l'annonce dans la bulle.</li><li><b>attendre (1) secondes</b> — Une petite pause pour laisser à Alexandre le temps de regarder la carte avant la suivante.</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>Un booster, c'est 5 tirages <b>indépendants</b>, l'un après l'autre. La boucle « répéter 5 » rejoue exactement la même chose 5 fois, sans avoir à recopier le code. Si tu veux des paquets de 3 cartes, tu changes juste le 5 en 3.</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Commence en mettant <b>1</b> à la place de 5, pour bien voir chaque étape sur une seule carte. Clique le paquet : une carte apparaît, la bulle parle. Quand tout marche, remets 5.</div>
+    
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum">6</span> Montrer la carte et l'album</div>
+    <div class="but"><b>🎯 Ce qu'on veut faire :</b> Afficher les cartes obtenues, et laisser les autres en « mystère » (une carte « ? »). C'est la page collection.</div>
+    <div class="ou">📦 <b>Où trouver les blocs :</b> Tout est dans <b>Apparence</b> (violet) et <b>Contrôle</b> (orange), avec les listes du tiroir <b>Variables</b>.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs/etape11-album.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div>
+    <div class="detail"><h4>🔍 Ce que fait chaque bloc (lis dans l'ordre, de haut en bas)</h4><ol class="blocdesc"><li><b>(on parcourt les cartes de 1 à 36)</b> — On regarde chaque carte, une par une, comme si on tournait les pages.</li><li><b>si <(élément (n°) de possede) = 1> alors</b> — Si on possède cette carte (sa case vaut 1)…</li><li><b>basculer sur le costume (n°) → montrer</b> — …on affiche son vrai dessin à sa place dans la grille.</li><li><b>sinon → costume « mystère »</b> — Sinon, on affiche une carte « ? » grise : la carte n'est pas encore trouvée.</li></ol></div>
+    <div class="pourquoi"><h4>💡 Pourquoi on fait ça</h4>Le même petit bout de code sert pour les 36 cases, en changeant juste le numéro. Pour afficher joliment une grille de 6×6 cartes, le jeu fini utilise des <b>clones</b> (des copies du lutin, une par case) — c'est une technique un peu plus avancée, mais tu l'as déjà toute prête dans le fichier du jeu !</div>
+    <div class="teste"><h4>✅ Teste que ça marche</h4>Dans le jeu fini (le fichier <b>Livre-de-Moutons.sb3</b>), clique le bouton <b>Album</b> : tu vois la grille, les cartes obtenues en couleur, les autres en « ? », avec le niveau sur chacune et le compteur « X / 36 ».</div>
+    <div class="astuce"><h4>🐑 Astuce</h4>N'essaie pas de construire les clones tout de suite. Fais d'abord marcher le tirage et le booster. L'album « joli » viendra après — et le jeu fini te montre déjà à quoi ça ressemble.</div>
+  </section>
+
+<h2 class="chap">🚀 Le jeu complet — les leçons avancées</h2>
+<p class="lead">Les 6 leçons du dessus construisent le <b>cœur</b> du jeu (le tirage, le booster, l'album de base). Ces leçons-ci ajoutent <b>tout le reste</b>, lutin par lutin, avec les vrais blocs et le rôle de chacun — pour reproduire le jeu <b>à l'identique</b>. C'est plus dur : prends une leçon à la fois, et n'hésite pas à ouvrir le jeu fini à côté pour comparer.</p>
+<div class="callout">📌 <b>Rappel :</b> chaque lutin se crée dans « Choisir un sprite → Peindre », se renomme, et reçoit ses <b>costumes</b> depuis le dossier <span class="mono">elements/</span> (voir le chapitre « Les images du jeu »). Les <b>messages</b> (« reveler », « ouvrir album », « afficher page », « vider slots », « ouvrir booster ») se créent la 1ʳᵉ fois dans le bloc « envoyer à tous », menu <b>Nouveau message</b>.</div>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">7</span> Le sprite « Paquet »</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Paquet</span> — le paquet qu'on clique pour ouvrir un booster, + la recharge.</div>
+    <h3>a) Au démarrage (drapeau vert)</h3><p>Tout remettre à zéro et afficher le paquet.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Paquet », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/pq-1-demarrage.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Paquet</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>basculer sur l'arrière-plan (Accueil)</b> — Affiche le décor du booster.</li><li><b>supprimer… puis répéter (36) : ajouter (0)</b> — Vide et remet 36 zéros dans possede et niveau (comme la Leçon 1).</li><li><b>mettre (obtenues) à 0, (Collection) à « 0 / 36 »</b> — Le compteur de collection repart à zéro.</li><li><b>mettre (Boosters) à 3, (tempsRestant) à 60</b> — On démarre avec 3 paquets ; le compte à rebours part de 60 s.</li><li><b>montrer / cacher la variable (…)</b> — On affiche les compteurs Collection, Boosters, Prochain booster, et on cache « page » (utile seulement dans l'album).</li><li><b>costume (ferme) · taille · position · montrer</b> — Le paquet fermé apparaît, bien placé au centre.</li></ol></div><h3>b) La recharge (un 2ᵉ script drapeau vert)</h3><p>Regagner un booster avec le temps.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Paquet », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/pq-2-recharge.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Paquet</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>répéter indéfiniment · attendre (1) secondes</b> — Une horloge : chaque seconde, on fait ce qui suit.</li><li><b>si (Boosters) < 5</b> — Tant que la réserve n'est pas pleine…</li><li><b>ajouter (-1) à (tempsRestant)</b> — …le compte à rebours descend d'une seconde.</li><li><b>mettre (Prochain booster) à (regrouper (tempsRestant) et « s »)</b> — On met à jour l'affichage « 45 s ».</li><li><b>si (tempsRestant) < 1 → +1 à (Boosters) et (tempsRestant) à 60</b> — À zéro, on gagne un booster et le compte à rebours repart.</li><li><b>sinon → (Prochain booster) « réserve pleine ★ »</b> — Si on a déjà 5 paquets, plus besoin de compter.</li></ol></div><h3>c) Ouvrir le paquet (clic)</h3><p>La déchirure + lancer la révélation.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Paquet », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/pq-3-ouvrir.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Paquet</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>si (Boosters) > 0</b> — On n'ouvre que s'il reste au moins un paquet.</li><li><b>ajouter (-1) à (Boosters)</b> — On en dépense un.</li><li><b>costume (ouvert) · jouer le son (déchirure)</b> — Le paquet se déchire, avec le bruit.</li><li><b>répéter (4) : ajouter (7) à x, attendre, ajouter (-7) à x</b> — Une petite secousse (le paquet tremble).</li><li><b>envoyer à tous (reveler) et attendre</b> — On demande au sprite « Carte » de révéler les 5 cartes, et on attend qu'il finisse.</li><li><b>sinon → dire « Plus de booster ! »</b> — S'il n'en reste plus, on prévient de revenir plus tard.</li></ol></div><h3>d) Changer d'écran</h3><p>Deux petits scripts pour montrer/cacher les bons compteurs.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Paquet », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/pq-4-modes.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Paquet</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je reçois (ouvrir album)</b> — On cache le paquet, on montre Collection + page, on cache Boosters + Prochain booster.</li><li><b>quand je reçois (ouvrir booster)</b> — On remet le décor, on montre les compteurs booster, on cache « page », et on réaffiche le paquet.</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">8</span> La révélation des cartes (sprite « Carte »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Carte</span> — quand le Paquet envoie « reveler », on montre 5 cartes une par une, en 3 morceaux.</div>
+    <h3>La structure d'ensemble</h3><p>Une boucle « répéter 5 fois ». Pour chaque carte : tirer une carte, puis les 3 morceaux A, B, C ci-dessous.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ca-1-structure.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>tirer une carte</b> — Notre bloc perso (Leçon 3) : il choisit un numéro de carte au hasard selon la rareté.</li></ol></div><h3>A) L'animation (le retournement)</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ca-1a-animation.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>costume (dos)</b> — On montre d'abord le DOS de la carte.</li><li><b>taille 50 % · aller à x:0 y:-120 · montrer</b> — La carte apparaît petite, en bas (près du paquet).</li><li><b>glisser en 0.18 s à x:0 y:15</b> — Elle GLISSE vers le centre.</li><li><b>répéter (6) : ajouter (-7) à la taille</b> — Elle rétrécit très vite, comme si elle se mettait de profil…</li><li><b>costume (carte) · jouer le son (pop)</b> — …on bascule sur la FACE (le vrai mouton) avec un « pop » : c'est le retournement !</li><li><b>répéter (10) : ajouter (8) à la taille · taille 88 %</b> — Elle regrossit : la carte est révélée en grand.</li></ol></div><h3>B) L'effet des cartes rares</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ca-1b-rarete.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>mettre (rar) à (élément (carte) de raretes)</b> — On lit la rareté de la carte tirée.</li><li><b>si (rar) n'est PAS « Commune » ET PAS « Rare »</b> — Donc si c'est une carte spéciale (épique, légendaire, dorée, diamant, arc-en-ciel)…</li><li><b>jouer le son (rare) · répéter : ajouter à l'effet couleur</b> — …un son spécial et un scintillement de couleurs, puis on annule l'effet.</li></ol></div><h3>C) L'album : nouvelle ou double</h3><p>C'est la Leçon 4, avec en plus le compteur Collection.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Carte », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat on"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat on"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ca-1c-album.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Carte</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>si pas encore possédée (= 0)</b> — On la marque obtenue (1), niveau 1, +1 à (obtenues), on met à jour (Collection), un son de victoire, et on annonce « Nouvelle ! ».</li><li><b>sinon (déjà possédée)</b> — Le double fait monter le niveau de 1, et on annonce « Double ! niv. X ».</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">9</span> L'album en pages (sprite « Slot »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Slot</span> — 6 cartes par page, avec des CLONES. C'est la partie la plus astucieuse.</div>
+    <h3>a) Ouvrir l'album</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Slot », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/sl-1-ouvrir.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Slot</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je reçois (ouvrir album) · si (estClone) = 0</b> — « estClone = 0 » = je suis l'ORIGINAL, pas une copie. Seul l'original prépare l'album (sinon on aurait des copies de copies).</li><li><b>arrière-plan (Album) · (page) à 1 · (slideDir) à 1</b> — On affiche la page du livre, on commence à la page 1, et on glissera depuis la droite.</li><li><b>envoyer à tous (afficher page)</b> — On demande d'afficher la page courante.</li></ol></div><h3>b) Afficher une page (6 cartes)</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Slot », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/sl-2-afficher.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Slot</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>si (estClone) = 0 · répéter (6) fois</b> — L'original fabrique les 6 emplacements de la page.</li><li><b>mettre (posi) à (i − 1)</b> — La position sur la page (0 à 5).</li><li><b>mettre (monSlot) à ((page−1) × 6 + i)</b> — Le vrai numéro de carte. Page 1 → cartes 1 à 6 ; page 2 → 7 à 12 ; etc.</li><li><b>créer un clone de (moi-même)</b> — On fabrique une copie qui deviendra une carte affichée.</li></ol></div><h3>c) Chaque carte affichée (le clone)</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Slot », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/sl-3-clone.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Slot</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je commence comme un clone · (estClone) à 1</b> — Cette copie sait qu'elle est un clone.</li><li><b>(c) à (posi mod 3) · (r) à (plancher de posi/3)</b> — On calcule sa colonne (0,1,2) et sa rangée (0,1) dans la grille 3×2.</li><li><b>si possédée → costume (monSlot) ; sinon → costume (dos)</b> — Si on a la carte, on montre le dessin ; sinon le dos de carte (mystère).</li><li><b>aller à x: (… + slideDir × 480) · glisser en 0.28 s à sa place</b> — Elle démarre HORS de l'écran (côté droit) puis GLISSE à sa place : l'effet « page qui se tourne ».</li></ol></div><h3>d) Effacer + cliquer une carte</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Slot », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/sl-4-vider-clic.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Slot</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je reçois (vider slots) → supprimer ce clone</b> — Avant de changer de page, on efface les cartes actuelles (chaque clone se supprime).</li><li><b>quand ce sprite est cliqué → dire les infos</b> — Cliquer une carte affiche son nom et sa rareté (si on la possède).</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">10</span> Les badges de niveau (sprite « Niveau »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Niveau</span> — un petit badge sur chaque carte obtenue. Même principe de clones que l'album.</div>
+    <h3>a) Créer les badges de la page</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Niveau », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ni-1-afficher.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Niveau</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>pour chaque carte de la page, si possédée → créer un clone</b> — Un badge par carte obtenue seulement.</li></ol></div><h3>b) Chaque badge (le clone)</h3><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Niveau », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/ni-2-clone.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Niveau</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>mettre (lvl) à (élément (bSlot) de niveau)</b> — Le niveau de cette carte.</li><li><b>si (lvl) > 9 → costume (9plus) ; sinon → costume (lvl)</b> — On choisit la pastille : « 1 » à « 9 », ou « 9+ » au-delà.</li><li><b>aller au coin de la carte + glisser</b> — Le badge se place dans le coin de sa carte, en glissant comme elle.</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">11</span> La réserve de boosters (sprite « Reserve »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Reserve</span> — le petit chiffre sur la pièce du bouton Booster.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Reserve », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/re-reserve.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Reserve</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>se placer sur la pièce · aller au premier plan</b> — On pose la pièce sur le bouton Booster, devant tout.</li><li><b>répéter indéfiniment : costume ((Boosters) + 1)</b> — Les costumes 1 à 10 sont les chiffres 0 à 9. « Boosters + 1 » choisit le bon chiffre. Comme c'est une boucle, le chiffre suit toujours la réserve.</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">12</span> La couverture de l'album (sprite « Cover »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Cover</span> — la belle couverture qui apparaît un instant quand on ouvre l'album.</div>
+    <div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Cover », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/cv-cover.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Cover</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je reçois (ouvrir album) : montrer, attendre 0.55 s, cacher</b> — La couverture s'affiche brièvement puis laisse place à la grille : on « ouvre le livre ».</li><li><b>quand je reçois (ouvrir booster) : cacher</b> — On la cache quand on retourne au booster.</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">13</span> Les boutons Booster / Album</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Booster et Album</span> — deux boutons quasi identiques (change juste le message envoyé).</div>
+    <p>Exemple du bouton « Booster ». Le bouton « Album » est pareil, mais envoie « ouvrir album ».</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Booster et Album », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/bt-bouton.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Booster et Album</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand le drapeau vert pressé : se placer, se montrer</b> — Le bouton apparaît en bas de l'écran.</li><li><b>quand ce sprite est cliqué : envoyer (vider slots) et attendre, puis (ouvrir booster)</b> — On efface d'abord la page de l'album, puis on change d'écran.</li></ol></div>
+  </section>
+<section class="lecon">
+    <div class="lecon-h"><span class="lnum" style="background:#9966ff">14</span> Les flèches ◀ ▶ (sprites « Prec » / « Suiv »)</div>
+    <div class="ou">🎬 <b>Sur le lutin :</b> <span class="mono">Prec et Suiv</span> — tourner les pages de l'album.</div>
+    <p>Exemple de la flèche « Suivant ». « Précédent » est pareille, mais teste (page > 1), fait (page − 1) et met (slideDir) à −1.</p><div class="edframe">
+    <div class="edtop">🖥️ Dans l'éditeur — sur le lutin « Prec et Suiv », dans la zone de code</div>
+    <div class="edrow">
+      <div class="edrail"><div class="cat on"><span class="dot" style="background:#4c97ff"></span>Mouvement</div><div class="cat on"><span class="dot" style="background:#9966ff"></span>Apparence</div><div class="cat"><span class="dot" style="background:#cf63cf"></span>Son</div><div class="cat on"><span class="dot" style="background:#ffbf00"></span>Événements</div><div class="cat on"><span class="dot" style="background:#ffab19"></span>Contrôle</div><div class="cat"><span class="dot" style="background:#5cb1d6"></span>Capteurs</div><div class="cat on"><span class="dot" style="background:#59c059"></span>Opérateurs</div><div class="cat on"><span class="dot" style="background:#ff8c1a"></span>Variables</div><div class="cat"><span class="dot" style="background:#ff6680"></span>Mes Blocs</div></div>
+      <div class="edcode"><img src="images/blocs-hd/fl-fleche.png" alt="script Scratch"></div>
+      <div class="edright">
+        <div class="edstage">⚑ <span style="color:#e64b3c">⏹</span> ⤢<small>Scène</small></div>
+        <div class="edsprites"><div class="lutin">🐑<br>Prec et Suiv</div><div class="others"><span></span><span></span><span></span></div></div>
+      </div>
+    </div>
+  </div><div class="detail"><ol class="blocdesc"><li><b>quand je reçois (ouvrir album) / (ouvrir booster) : se montrer / se cacher</b> — Les flèches n'apparaissent que dans l'album.</li><li><b>quand ce sprite est cliqué : si (page) < 6</b> — On ne va à la page suivante que s'il en reste une.</li><li><b>envoyer (vider slots) et attendre · (slideDir) à 1 · +1 à (page) · envoyer (afficher page)</b> — On efface la page, on choisit le sens du glissement, on change de page, et on l'affiche.</li></ol></div>
+  </section>
+
+<h2 class="chap">🪜 Par où commencer (pour ne pas se décourager)</h2>
+<div class="box">
+<div class="steps">
+<div class="step"><b>Étape A.</b> Fais marcher <b>1 carte</b> : le dé + montrer un mouton. Rien d'autre.</div>
+<div class="step"><b>Étape B.</b> Ajoute les <b>raretés</b> (l'escalier) avec 2 ou 3 raretés seulement pour commencer.</div>
+<div class="step"><b>Étape C.</b> Passe aux <b>36 cartes</b> et aux 7 raretés avec les listes.</div>
+<div class="step"><b>Étape D.</b> Ajoute le <b>booster de 5</b> et la règle <b>nouvelle / double</b>.</div>
+<div class="step"><b>Étape E.</b> Regarde comment le jeu fini fait l'<b>album</b>, les sons et les animations, et amuse-toi à changer des choses.</div>
+</div>
+<p>💛 Un jeu qui marche à moitié mais que tu <b>comprends</b> vaut mieux qu'un gros jeu copié que tu ne sais pas réparer. Teste après chaque petit ajout : si ça casse, tu sais que ça vient de la dernière chose que tu as mise.</p>
+</div>
+
+<h2 class="chap">📋 Tableau des 36 cartes</h2>
+<table><thead><tr><th class="num">N°</th><th>Nom</th><th>Rareté</th><th class="num">Forces</th><th class="num">Une carte précise</th></tr></thead><tbody><tr><td class="num">01</td><td>Mouton des glaces</td><td><span class="badge" style="background:#1ab0c4">Diamant</span></td><td class="num">❤88 🌿76</td><td class="num">1 sur 250</td></tr>
+<tr><td class="num">02</td><td>Mouton arc-en-ciel</td><td><span class="badge" style="background:#ff5ea8">Arc-en-ciel</span></td><td class="num">❤100 🌿100</td><td class="num">1 sur 500</td></tr>
+<tr><td class="num">03</td><td>Mouton pharaon</td><td><span class="badge" style="background:#f1c40f">Dorée</span></td><td class="num">❤68 🌿58</td><td class="num">1 sur 150</td></tr>
+<tr><td class="num">04</td><td>Mouton soleil</td><td><span class="badge" style="background:#f1c40f">Dorée</span></td><td class="num">❤72 🌿60</td><td class="num">1 sur 150</td></tr>
+<tr><td class="num">05</td><td>Mouton gardien du tresor</td><td><span class="badge" style="background:#f1c40f">Dorée</span></td><td class="num">❤75 🌿64</td><td class="num">1 sur 150</td></tr>
+<tr><td class="num">06</td><td>Mouton cristal</td><td><span class="badge" style="background:#1ab0c4">Diamant</span></td><td class="num">❤82 🌿72</td><td class="num">1 sur 250</td></tr>
+<tr><td class="num">07</td><td>Mouton maladroit</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤11 🌿6</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">08</td><td>Mouton muscle</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤24 🌿18</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">09</td><td>Mouton lecteur</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤20 🌿16</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">10</td><td>Mouton joueur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤13 🌿8</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">11</td><td>Mouton jardinier</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤12 🌿7</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">12</td><td>Mouton peintre</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤11 🌿8</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">13</td><td>Mouton chanteur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤12 🌿8</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">14</td><td>Mouton mangeur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤12 🌿9</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">15</td><td>Mouton dormeur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤14 🌿6</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">16</td><td>Mouton detective</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤19 🌿17</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">17</td><td>Mouton pecheur</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤20 🌿16</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">18</td><td>Mouton pilote</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤22 🌿19</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">19</td><td>Mouton promeneur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤13 🌿8</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">20</td><td>Mouton bricoleur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤12 🌿7</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">21</td><td>Mouton cuisinier</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤21 🌿17</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">22</td><td>Mouton footballeur</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤22 🌿18</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">23</td><td>Mouton danseur</td><td><span class="badge" style="background:#8a4bff">Rare</span></td><td class="num">❤20 🌿18</td><td class="num">1 sur 32</td></tr>
+<tr><td class="num">24</td><td>Mouton farceur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤12 🌿7</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">25</td><td>Mouton timide</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤11 🌿6</td><td class="num">1 sur 22</td></tr>
+<tr><td class="num">26</td><td>Mouton astronaute</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤35 🌿32</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">27</td><td>Mouton roi</td><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="num">❤46 🌿38</td><td class="num">1 sur 80</td></tr>
+<tr><td class="num">28</td><td>Mouton super-heros</td><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="num">❤50 🌿42</td><td class="num">1 sur 80</td></tr>
+<tr><td class="num">29</td><td>Mouton dragon</td><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="num">❤54 🌿44</td><td class="num">1 sur 80</td></tr>
+<tr><td class="num">30</td><td>Mouton fantome</td><td><span class="badge" style="background:#e67e22">Légendaire</span></td><td class="num">❤48 🌿40</td><td class="num">1 sur 80</td></tr>
+<tr><td class="num">31</td><td>Mouton pirate</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤30 🌿24</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">32</td><td>Mouton chevalier</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤34 🌿25</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">33</td><td>Mouton ninja</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤29 🌿28</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">34</td><td>Mouton magicien</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤31 🌿30</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">35</td><td>Mouton explorateur</td><td><span class="badge" style="background:#c0392b">Épique</span></td><td class="num">❤33 🌿27</td><td class="num">1 sur 50</td></tr>
+<tr><td class="num">36</td><td>Mouton cueilleur</td><td><span class="badge" style="background:#3aa0ff">Commune</span></td><td class="num">❤13 🌿8</td><td class="num">1 sur 22</td></tr></tbody></table>
+
+<footer>Livre 1 — Les Moutons de Base · 36 cartes · fait avec ❤ pour Alexandre 🐑<br>Les blocs sont de vraies images de l'éditeur Scratch.</footer>
+</div>
+<script src="vendor/jszip.min.js"></script>
+<script src="vendor/app.js"></script>
+</body></html>
