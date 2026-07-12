@@ -36,5 +36,19 @@ Il est découpé en LEÇONS (parfait pour avancer une étape à la fois, ou film
 Quand une leçon demande une image ou un son, tu vas le chercher dans le dossier  elements/.
 
 
+3) L'ASSISTANT IA (pour poser des questions)
+--------------------------------------------
+Dans le tuto, en bas à droite, il y a un bouton  🤖 Besoin d'aide ?
+Alexandre peut y écrire une question OU cliquer sur le micro 🎤 et parler.
+L'assistant répond simplement, et toutes les questions/réponses sont gardées
+dans l'onglet « 📒 Mes questions » (une petite FAQ à relire plus tard).
+
+POUR QUE ÇA MARCHE, un adulte doit ajouter une clé API (une seule fois) :
+  • Menu « 📚 Sommaire » → « ⚙️ Réglages (IA) »  (ou l'engrenage ⚙ dans le volet)
+  • Coller la clé API, choisir le « cerveau », Enregistrer, puis Tester.
+La clé reste UNIQUEMENT dans ce navigateur (jamais dans les fichiers, jamais publiée).
+À n'entrer que sur l'ordinateur d'Alexandre. Sans clé, l'assistant reste en veille.
+
+
 Astuce : garde le dossier ENTIER ensemble (le tuto a besoin du dossier « images »,
 et quand tu construis le jeu tu prends tout dans « elements »).
